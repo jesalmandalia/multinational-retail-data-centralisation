@@ -15,7 +15,7 @@ class DataCleaning:
         self.data = self.clean_names('first_name')
         self.data = self.clean_names('last_name')
         self.data = self.clean_dates('date_of_birth')
-        self.data = self.clean_emails('email_address')
+        #self.data = self.clean_emails('email_address')
         self.data = self.clean_phone_number('phone_number')
         self.data = self.clean_dates('join_date')
         self.data = self.clean_user_uuid('user_uuid')
@@ -31,11 +31,11 @@ class DataCleaning:
         self.data[col] = self.data[col].str.title()
         return self.data
 
-    def clean_emails(self, col):
-        self.data['valid_email'] = self.data[col].apply(lambda x: validate_email(x))
-        #print(self.data[col].value_counts())
-        self.data = self.data[self.data['valid_email'] == True]
-        return self.data  
+    #def clean_emails(self, col):
+    #    self.data['valid_email'] = self.data[col].apply(lambda x: validate_email(x))
+    #    #print(self.data[col].value_counts())
+    #    self.data = self.data[self.data['valid_email'] == True]
+    #    return self.data  
                
     def clean_phone_number(self, col):
         #check the length of the phone number is greater than 3, shortest phonenumber is 4 digits
@@ -52,6 +52,12 @@ class DataCleaning:
        # print(self.data.isna().any())
         self.data = self.data.dropna()
         self.data = self.clean_dates('date_payment_confirmed')
+
+    def clean_store_data(self):
+        print("Cleaning store data")
+        self.data = self.data.drop(columns=['lat']) #drop lat column, it is the same as latitude but this one is empty
+        self.data = self.data.dropna()
+        self.data = self.clean_dates('opening_date')
 
 if __name__ == '__main__':
 

@@ -10,6 +10,8 @@ class DataExtracter:
         engine = db_connector.init_db_engine("db_creds.yaml") 
         query = 'SELECT * FROM ' + table_name
         df = pd.DataFrame(engine.connect().execute(text(query)))
+        print(df.head())
+        print(df.shape)
         return df 
 
     def retrieve_pdf_data(self, link):
