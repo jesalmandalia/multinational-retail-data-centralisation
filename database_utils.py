@@ -42,8 +42,12 @@ if __name__ == '__main__':
     clean_data = DataCleaning(
         data_extractor.read_rds_table(db_connector, tables_list[1]))
     clean_data.clean_user_data()
-    #print(clean_data.user_data.head())
-    #print(clean_data.user_data.shape)
-    db_connector.upload_to_db(clean_data.user_data, "dim_card_details")
+    #print(clean_data.data.head())
+    #print(clean_data.data.shape)
+    db_connector.upload_to_db(clean_data.data, "dim_users")
     
-    
+    link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
+    df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf) 
+    clean_pdf_data = DataCleaning(df_pdf_data)
+    clean_pdf_data.clean_card_data()
+    db_connector.upload_to_db(clean_pdf_data.data, "dim_card_details") 

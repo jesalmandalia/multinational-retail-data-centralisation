@@ -5,49 +5,53 @@ import numpy as np
 from validate_email import validate_email
 
 class DataCleaning:
-    #        Create a method called clean_user_data in the DataCleaning class which will perform the cleaning of the user data.
-
-    # You will need clean the user data, look out for NULL values, errors with dates, incorrectly typed values and rows filled with the wrong information.
-
-    def __init__(self, user_data):
-        self.user_data = user_data
+    #        Create a method called clean_data in the DataCleaning class which will perform the cleaning of the user data.
+    def __init__(self, data):
+        self.data = data
 
     def clean_user_data(self):
         print("Cleaning user data")
-        self.user_data = self.user_data.dropna()
-        
-        self.user_data = self.clean_names('first_name')
-        self.user_data = self.clean_names('last_name')
-        self.user_data = self.clean_dates('date_of_birth')
-        self.user_data = self.clean_emails('email_address')
-        self.user_data = self.clean_phone_number('phone_number')
-        self.user_data = self.clean_dates('join_date')
-        self.user_data = self.clean_user_uuid('user_uuid')
+        self.data = self.data.dropna() 
+        self.data = self.clean_names('first_name')
+        self.data = self.clean_names('last_name')
+        self.data = self.clean_dates('date_of_birth')
+        self.data = self.clean_emails('email_address')
+        self.data = self.clean_phone_number('phone_number')
+        self.data = self.clean_dates('join_date')
+        self.data = self.clean_user_uuid('user_uuid')
          
     def clean_dates(self, col): 
-        self.user_data[col] = pd.to_datetime(self.user_data[col], errors='coerce')
-        #print(self.user_data.isna().any())
-        self.user_data = self.user_data.dropna(subset=[col])
-        return self.user_data
+        self.data[col] = pd.to_datetime(self.data[col], errors='coerce')
+       # print(self.data.isna().any())
+        self.data = self.data.dropna(subset=[col])
+        #print(self.data.isna().any())
+        return self.data
 
     def clean_names(self, col):
-        self.user_data[col] = self.user_data[col].str.title()
-        return self.user_data
+        self.data[col] = self.data[col].str.title()
+        return self.data
 
     def clean_emails(self, col):
-        self.user_data['valid_email'] = self.user_data[col].apply(lambda x: validate_email(x))
-        #print(self.user_data[col].value_counts())
-        self.user_data = self.user_data[self.user_data['valid_email'] == True]
-        return self.user_data  
+        self.data['valid_email'] = self.data[col].apply(lambda x: validate_email(x))
+        #print(self.data[col].value_counts())
+        self.data = self.data[self.data['valid_email'] == True]
+        return self.data  
                
     def clean_phone_number(self, col):
         #check the length of the phone number is greater than 3, shortest phonenumber is 4 digits
-        self.user_data = self.user_data[self.user_data[col].str.len() > 3]
-        return self.user_data 
+        self.data = self.data[self.data[col].str.len() > 3]
+        return self.data 
 
     def clean_user_uuid(self, col):
-        self.user_data[col] = self.user_data[col][self.user_data[col].str.len() == 36]
-        return self.user_data
+        self.data[col] = self.data[col][self.data[col].str.len() == 36]
+        return self.data
+
+    #Create a method called clean_data in your DataCleaning class to clean the data to remove any erroneous values, NULL values or errors with formatting.
+    def clean_card_data(self):
+        print("Cleaning card data")
+       # print(self.data.isna().any())
+        self.data = self.data.dropna()
+        self.data = self.clean_dates('date_payment_confirmed')
 
 if __name__ == '__main__':
 
@@ -58,4 +62,4 @@ if __name__ == '__main__':
     #print("Tables in database:", tables_list)
     #clean_data = DataCleaning(
     #    data_extractor.read_rds_table(db_connector, tables_list[1]))
-    #clean_data.clean_user_data()
+    #clean_data.clean_data()
