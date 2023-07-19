@@ -56,7 +56,7 @@ class DatabaseConnector:
         print(stores_df.head())
         print(stores_df.shape)
         return stores_df
-
+    
 
 if __name__ == '__main__':
 
@@ -69,9 +69,9 @@ if __name__ == '__main__':
     #clean_data.clean_user_data()
     #db_connector.upload_to_db(clean_data.data, "dim_users")
 
-    orders_df = data_extractor.read_rds_table(db_connector, tables_list[2])
-    clean_orders_data = DataCleaning(orders_df).clean_orders_data()   
-    db_connector.upload_to_db(clean_orders_data, "orders_table")
+    #orders_df = data_extractor.read_rds_table(db_connector, tables_list[2])
+    #clean_orders_data = DataCleaning(orders_df).clean_orders_data()   
+    #db_connector.upload_to_db(clean_orders_data, "orders_table")
 
     #link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
     #df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
@@ -95,6 +95,18 @@ if __name__ == '__main__':
     #products_df = DataCleaning(products_df).convert_product_weights()
     #clean_products_data = DataCleaning(products_df).clean_product_data()
     #db_connector.upload_to_db(clean_products_data, "dim_products")
-    
+   
+   
+   #The final source of data is a JSON file containing the details of when each sale happened, as well as related attributes.
+
+#The file is currently stored on S3 and can be found at the following link https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json.
+
+#Extract the file and perform any necessary cleaning, then upload the data to the database naming the table dim_date_times.
+
+    link_to_json = "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
+    date_events_df = data_extractor.retrieve_json_data(link_to_json)
+    clean_date_events_data = DataCleaning(date_events_df).clean_date_events_data()
+    db_connector.upload_to_db(clean_date_events_data, "dim_date_times")
+
    
  
