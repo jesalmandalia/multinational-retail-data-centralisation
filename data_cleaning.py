@@ -116,7 +116,19 @@ class DataCleaning:
         self.data = self.clean_dates('date_added')
         
         return self.data
- 
+
+
+    def clean_orders_data(self):
+        print("Cleaning orders data")
+        
+        self.data = self.data.drop(columns=['first_name', 'last_name', '1', 'level_0'])
+        self.data = self.data.dropna()
+        
+        self.data['card_number'] = self.data['card_number'].astype(int)
+        self.data['product_quantity'] = self.data['product_quantity'].astype(int)
+        
+        return self.data 
+        
 if __name__ == '__main__':
 
     print("Running data cleaning")

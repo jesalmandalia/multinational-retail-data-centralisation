@@ -69,6 +69,10 @@ if __name__ == '__main__':
     #clean_data.clean_user_data()
     #db_connector.upload_to_db(clean_data.data, "dim_users")
 
+    orders_df = data_extractor.read_rds_table(db_connector, tables_list[2])
+    clean_orders_data = DataCleaning(orders_df).clean_orders_data()   
+    db_connector.upload_to_db(clean_orders_data, "orders_table")
+
     #link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
     #df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
     #clean_pdf_data = DataCleaning(df_pdf_data)
@@ -86,11 +90,11 @@ if __name__ == '__main__':
     #clean_stores_data.clean_store_data()
     #db_connector.upload_to_db(clean_stores_data.data, "dim_store_details")
 
-    s3_address = "s3://data-handling-public/products.csv"
-    products_df = data_extractor.extract_from_s3(s3_address)
-    convert_product_weights = DataCleaning(products_df).convert_product_weights()
-    clean_products_data = DataCleaning(convert_product_weights).clean_product_data()
-    db_connector.upload_to_db(clean_products_data, "dim_products")
+    #s3_address = "s3://data-handling-public/products.csv"
+    #products_df = data_extractor.extract_from_s3(s3_address)
+    #products_df = DataCleaning(products_df).convert_product_weights()
+    #clean_products_data = DataCleaning(products_df).clean_product_data()
+    #db_connector.upload_to_db(clean_products_data, "dim_products")
     
    
  
