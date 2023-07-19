@@ -128,7 +128,30 @@ class DataCleaning:
         self.data['product_quantity'] = self.data['product_quantity'].astype(int)
         
         return self.data 
+    
+    def clean_date_events_data(self):
+        print("Cleaning date events data")
+        self.data = self.data.dropna()
+        new_col_datetime = self.data['year'].astype(str) + "-" + self.data['month'].astype(str) + "-" + self.data['day'].astype(str) + " " + self.data['timestamp'].astype(str)
+        self.data['datetime'] = new_col_datetime
+        self.data = self.clean_dates('datetime')
+        self.data = self.data.drop(columns=['year', 'month', 'day', 'timestamp'])
+       
+        def convert_time_period(time):
+            if time.hour >= 6 and time.hour < 12:
+                return "Morning"
+            elif time.hour >= 12 and time.hour < 18:
+                return "Afternoon"
+            elif time.hour >= 18 and time.hour < 24:
+                return "Evening"
+            elif time.hour >= 0 and time.hour < 6:
+                return "Night"
+            else:
+                return None
         
+        self.data['time_period'] = self.data['datetime'].apply(convert_time_period)
+        
+        return self.data            
 if __name__ == '__main__':
 
     print("Running data cleaning")

@@ -39,9 +39,13 @@ class DataExtracter:
         print(df_s3_data.head())
         print(df_s3_data.shape)
         return df_s3_data
-     
 
-        
+    def retrieve_json_data(self, link):
+        print("Retrieving json data")
+        df_json_data = pd.read_json(link)
+        print(df_json_data.head())
+        print(df_json_data.shape)
+        return df_json_data        
 
 if __name__ == '__main__':
         
