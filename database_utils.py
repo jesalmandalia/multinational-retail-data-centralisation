@@ -64,24 +64,33 @@ if __name__ == '__main__':
     tables_list = db_connector.list_db_tables()
     print("Tables in database:", tables_list)
     data_extractor = DataExtracter()
-    clean_data = DataCleaning(
-        data_extractor.read_rds_table(db_connector, tables_list[1]))
-    clean_data.clean_user_data()
-    db_connector.upload_to_db(clean_data.data, "dim_users")
+    #clean_data = DataCleaning(
+    #    data_extractor.read_rds_table(db_connector, tables_list[1]))
+    #clean_data.clean_user_data()
+    #db_connector.upload_to_db(clean_data.data, "dim_users")
 
-    link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
-    df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
-    clean_pdf_data = DataCleaning(df_pdf_data)
-    clean_pdf_data.clean_card_data()
-    db_connector.upload_to_db(clean_pdf_data.data, "dim_card_details")
+    #link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
+    #df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
+    #clean_pdf_data = DataCleaning(df_pdf_data)
+    #clean_pdf_data.clean_card_data()
+    #db_connector.upload_to_db(clean_pdf_data.data, "dim_card_details")
 
-    store_api_key = "x-api-key"
-    store_api_key_value = "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"
-    store_dict = {store_api_key: store_api_key_value}
-    store_api_url = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/"  # + store_number
-    number_of_stores_api_url = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores"
+    #store_api_key = "x-api-key"
+    #store_api_key_value = "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"
+    #store_dict = {store_api_key: store_api_key_value}
+    #store_api_url = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/store_details/"  # + store_number
+    #number_of_stores_api_url = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores"
 
-    stores_data = db_connector.retrieve_stores_data(store_api_url, store_dict)
-    clean_stores_data = DataCleaning(stores_data)
-    clean_stores_data.clean_store_data()
-    db_connector.upload_to_db(clean_stores_data.data, "dim_store_details")
+    #stores_data = db_connector.retrieve_stores_data(store_api_url, store_dict)
+    #clean_stores_data = DataCleaning(stores_data)
+    #clean_stores_data.clean_store_data()
+    #db_connector.upload_to_db(clean_stores_data.data, "dim_store_details")
+
+    s3_address = "s3://data-handling-public/products.csv"
+    products_df = data_extractor.extract_from_s3(s3_address)
+    convert_product_weights = DataCleaning(products_df).convert_product_weights()
+    clean_products_data = DataCleaning(convert_product_weights).clean_product_data()
+    db_connector.upload_to_db(clean_products_data, "dim_products")
+    
+   
+ 
