@@ -4,6 +4,7 @@ import numpy as np
 #from database_utils import DatabaseConnector
 from validate_email import validate_email
 pd.options.mode.chained_assignment = None  # default='warn'
+import uuid
 
 class DataCleaning:
     #        Create a method called clean_data in the DataCleaning class which will perform the cleaning of the user data.
@@ -59,7 +60,15 @@ class DataCleaning:
         self.data = self.data.drop(columns=['lat']) #drop lat column, it is the same as latitude but this one is empty
         self.data = self.data.dropna()
         self.data = self.clean_dates('opening_date')
-
+        #set the column for staff_numbers to be an integer
+        #if any cant be converted to an integer, drop the row
+        self.data['staff_numbers'] = pd.to_numeric(self.data['staff_numbers'], errors='coerce')
+        self.data = self.data.dropna(subset=['staff_numbers'])
+        self.data['staff_numbers'] = self.data['staff_numbers'].astype(int)
+        print(self.data.isna().any()) 
+        print(self.data.head())
+        print(self.data.shape)
+        print(self.data.dtypes)
 
     def convert_product_weights(self):
         print("Converting product weights")
@@ -126,7 +135,7 @@ class DataCleaning:
         
         self.data['card_number'] = self.data['card_number'].astype(int)
         self.data['product_quantity'] = self.data['product_quantity'].astype(int)
-        
+             
         return self.data 
     
     def clean_date_events_data(self):
@@ -135,21 +144,21 @@ class DataCleaning:
         new_col_datetime = self.data['year'].astype(str) + "-" + self.data['month'].astype(str) + "-" + self.data['day'].astype(str) + " " + self.data['timestamp'].astype(str)
         self.data['datetime'] = new_col_datetime
         self.data = self.clean_dates('datetime')
-        self.data = self.data.drop(columns=['year', 'month', 'day', 'timestamp'])
+        #self.data = self.data.drop(columns=['year', 'month', 'day', 'timestamp'])
        
-        def convert_time_period(time):
-            if time.hour >= 6 and time.hour < 12:
-                return "Morning"
-            elif time.hour >= 12 and time.hour < 18:
-                return "Afternoon"
-            elif time.hour >= 18 and time.hour < 24:
-                return "Evening"
-            elif time.hour >= 0 and time.hour < 6:
-                return "Night"
-            else:
-                return None
+        #def convert_time_period(time):
+        #    if time.hour >= 6 and time.hour < 12:
+        #        return "Morning"
+        #    elif time.hour >= 12 and time.hour < 18:
+        #        return "Afternoon"
+        #    elif time.hour >= 18 and time.hour < 24:
+        #        return "Evening"
+        #    elif time.hour >= 0 and time.hour < 6:
+        #        return "Night"
+        #    else:
+        #        return None
         
-        self.data['time_period'] = self.data['datetime'].apply(convert_time_period)
+        #self.data['time_period'] = self.data['datetime'].apply(convert_time_period)
         
         return self.data            
 if __name__ == '__main__':
