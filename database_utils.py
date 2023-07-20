@@ -33,6 +33,7 @@ class DatabaseConnector:
         print("Uploading to database")
         engine = self.init_db_engine("my_db_creds.yaml")
         df.to_sql(table_name, engine, if_exists='replace', index=False)
+        print("Upload complete")
         return None
 
     def list_number_of_stores(self, number_of_stores_api_url, store_dict):
@@ -56,7 +57,7 @@ class DatabaseConnector:
         print(stores_df.head())
         print(stores_df.shape)
         return stores_df
-    
+
 
 if __name__ == '__main__':
 
@@ -64,20 +65,20 @@ if __name__ == '__main__':
     tables_list = db_connector.list_db_tables()
     print("Tables in database:", tables_list)
     data_extractor = DataExtracter()
-    #clean_data = DataCleaning(
+    # clean_data = DataCleaning(
     #    data_extractor.read_rds_table(db_connector, tables_list[1]))
-    #clean_data.clean_user_data()
-    #db_connector.upload_to_db(clean_data.data, "dim_users")
+    # clean_data.clean_user_data()
+    # db_connector.upload_to_db(clean_data.data, "dim_users")
 
     #orders_df = data_extractor.read_rds_table(db_connector, tables_list[2])
-    #clean_orders_data = DataCleaning(orders_df).clean_orders_data()   
+    #clean_orders_data = DataCleaning(orders_df).clean_orders_data()
     #db_connector.upload_to_db(clean_orders_data, "orders_table")
 
-    #link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
-    #df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
-    #clean_pdf_data = DataCleaning(df_pdf_data)
-    #clean_pdf_data.clean_card_data()
-    #db_connector.upload_to_db(clean_pdf_data.data, "dim_card_details")
+    # link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
+    # df_pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
+    # clean_pdf_data = DataCleaning(df_pdf_data)
+    # clean_pdf_data.clean_card_data()
+    # db_connector.upload_to_db(clean_pdf_data.data, "dim_card_details")
 
     #store_api_key = "x-api-key"
     #store_api_key_value = "yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX"
@@ -86,8 +87,7 @@ if __name__ == '__main__':
     #number_of_stores_api_url = "https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores"
 
     #stores_data = db_connector.retrieve_stores_data(store_api_url, store_dict)
-    #clean_stores_data = DataCleaning(stores_data)
-    #clean_stores_data.clean_store_data()
+    #clean_stores_data = DataCleaning(stores_data).clean_store_data()
     #db_connector.upload_to_db(clean_stores_data.data, "dim_store_details")
 
     #s3_address = "s3://data-handling-public/products.csv"
@@ -95,18 +95,9 @@ if __name__ == '__main__':
     #products_df = DataCleaning(products_df).convert_product_weights()
     #clean_products_data = DataCleaning(products_df).clean_product_data()
     #db_connector.upload_to_db(clean_products_data, "dim_products")
-   
-   
-   #The final source of data is a JSON file containing the details of when each sale happened, as well as related attributes.
-
-#The file is currently stored on S3 and can be found at the following link https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json.
-
-#Extract the file and perform any necessary cleaning, then upload the data to the database naming the table dim_date_times.
 
     link_to_json = "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
     date_events_df = data_extractor.retrieve_json_data(link_to_json)
-    clean_date_events_data = DataCleaning(date_events_df).clean_date_events_data()
-    db_connector.upload_to_db(clean_date_events_data, "dim_date_times")
-
-   
- 
+    clean_date_events_data = DataCleaning(
+        date_events_df).clean_date_events_data()
+   # db_connector.upload_to_db(clean_date_events_data, "dim_date_times")
