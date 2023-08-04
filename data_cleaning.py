@@ -71,7 +71,6 @@ class DataCleaning:
         self.data = self.data.drop(columns=['lat'])
         data_transformations = DataTransformations(self.data)        
         self.data = data_transformations.clean_dates('opening_date')
-        # Correct typos in the continent names
         self.data["continent"] = self.data["continent"].str.replace(
             "eeEurope", "Europe")
         self.data["continent"] = self.data["continent"].str.replace(
