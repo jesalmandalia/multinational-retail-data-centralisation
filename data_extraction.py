@@ -19,7 +19,7 @@ class DataExtracter:
         """
         Reads data from a specific table in the database.
 
-        Args:
+        Parameters:
         db_connector (DatabaseConnector): An instance of the DatabaseConnector class to establish a database connection.
         table_name (str): The name of the table to read data from.
 
@@ -40,7 +40,7 @@ class DataExtracter:
         """
         Retrieves data from a PDF file.
 
-        Args:
+        Parameters:
         link (str): The URL or file path of the PDF file.
 
         Returns:
@@ -60,7 +60,7 @@ class DataExtracter:
         """
         Extracts data from a CSV file stored in Amazon S3.
 
-        Args:
+        Parameters:
         s3_address (str): The S3 address (s3://bucket/key) of the CSV file.
 
         Returns:
@@ -86,7 +86,7 @@ class DataExtracter:
         """
         Retrieves data from a JSON file.
 
-        Args:
+        Parameters:
         link (str): The URL or file path of the JSON file.
 
         Returns:

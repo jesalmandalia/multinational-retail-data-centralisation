@@ -33,7 +33,7 @@ class DatabaseConnector:
         """
         Read the database credentials from a YAML file.
 
-        Args:
+        Parameters:
             file_path (str): Path to the YAML file containing database credentials.
 
         Returns:
@@ -47,7 +47,7 @@ class DatabaseConnector:
         """
         Initialize the database engine using the credentials obtained from read_db_creds.
 
-        Args:
+        Parameters:
             file_path (str): Path to the YAML file containing database credentials.
 
         Returns:
@@ -74,7 +74,7 @@ class DatabaseConnector:
         """
         Upload the given DataFrame to the specified database table.
 
-        Args:
+        Parameters:
             df (pandas.DataFrame): DataFrame to be uploaded to the database.
             table_name (str): Name of the target database table.
         """
@@ -87,7 +87,7 @@ class DatabaseConnector:
         """
         Retrieve the number of stores from the provided API URL.
 
-        Args:
+        Parameters:
             number_of_stores_api_url (str): API URL to get the number of stores.
             store_dict (dict): Dictionary containing API headers.
 
@@ -102,7 +102,7 @@ class DatabaseConnector:
         """
         Retrieve data for all stores from the provided API URL.
 
-        Args:
+        Parameters:
             store_api_url (str): API URL to get the store data.
             number_of_stores_api_url (str): API URL to get the number of stores.
             store_dict (dict): Dictionary containing API headers.
