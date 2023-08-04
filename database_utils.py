@@ -109,7 +109,6 @@ class DatabaseConnector:
         return response.json()
 
 
-
 if __name__ == '__main__':
 
     print("Running data utilities")

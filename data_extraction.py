@@ -4,6 +4,7 @@ import boto3
 import requests
 import tabula
 
+
 class DataExtracter:
     """
     A class for extracting data from various sources.

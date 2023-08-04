@@ -2,6 +2,7 @@ from data_cleaning import DataCleaning
 from data_extraction import DataExtracter
 from database_utils import DatabaseConnector
 
+
 # Create an instance of the DatabaseConnector class
 db_connector = DatabaseConnector()
 

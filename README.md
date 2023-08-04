@@ -10,6 +10,7 @@
 		- [`data_transformations.py`](#data_transformationspy)
 		- [`data_extracter.py`](#data_extracterpy)
 		- [`create_the_database_schema.sql`](#create_the_database_schemasql)
+			- [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
 		- [`querying_the_data.sql`](#querying_the_datasql)
 	- [How To Run](#how-to-run)
 	- [Required Dependencies](#required-dependencies)
@@ -97,6 +98,13 @@ The `create_the_database_schema.sql` contains a series of SQL queries that perfo
 - Task 9: Finalise the star-based schema by adding foreign keys to the `orders_table` referencing the dimension tables.
 
 Please ensure you run these SQL queries in the correct order and make necessary backups before applying any modifications to your database.
+
+#### Entity-Relationship Diagram (ERD) 
+
+The star-based schema is represented in the following ERD. The fact table (here the "orders_table") is at the centre, surrounded by dimension tables ("dim_card_details", "dim_date_times", "dim_products", "dim_store_details" and "dim_users"). Each dimension table is linked to the fact table through foreign keys, establishing relationships between different data elements. 
+
+![Star-Based Schema](starbased_schema.png)
+
 
 
 ### `querying_the_data.sql`

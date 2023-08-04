@@ -226,15 +226,15 @@ ALTER COLUMN date_uuid TYPE UUID USING date_uuid::UUID;
 
 /* Task 7 /
 / Cast the columns of dim_card_details to the correct data types. */
---UPDATE dim_card_details
---SET card_number = REPLACE(card_number, '?', '')
---WHERE card_number LIKE '?%';
+UPDATE dim_card_details
+SET card_number = REPLACE(card_number, '?', '')
+WHERE card_number LIKE '?%';
 
 SELECT MAX(LENGTH(card_number)) AS max_length
-FROM dim_card_details; --22
+FROM dim_card_details; --19
 
 ALTER TABLE dim_card_details
-ALTER COLUMN card_number TYPE VARCHAR(22);
+ALTER COLUMN card_number TYPE VARCHAR(19);
 
 SELECT MAX(LENGTH(expiry_date)) AS max_length
 FROM dim_card_details; --5
