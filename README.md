@@ -7,6 +7,7 @@
 	- [Files](#files)
 		- [`database_utils.py`](#database_utilspy)
 		- [`data_cleaning.py`](#data_cleaningpy)
+		- [`data_transformations.py`](#data_transformationspy)
 		- [`data_extracter.py`](#data_extracterpy)
 		- [`create_the_database_schema.sql`](#create_the_database_schemasql)
 		- [`querying_the_data.sql`](#querying_the_datasql)
@@ -44,7 +45,6 @@ This file contains the `DatabaseConnector` class, which provides methods for rea
 - `list_db_engine`: List all the tables in the database.
 - `upload_to_db`: Uploads the given DataFrame to the specified database table.
 - `list_number_of_stores`: Retrieves the number of stores from the provided API URL.
-- `retrieve_stores_data`: Retrieves data for all stores from the provided API URL.
 
 
 ### `data_cleaning.py`
@@ -52,16 +52,22 @@ This file contains the `DatabaseConnector` class, which provides methods for rea
 This file contains the `DataCleaning` class, which is responsible for cleaning different types of data. The methods in this class include:
 
 - `clean_user_data`: Cleans user-related data, including names, dates of birth, phone numbers, and UUIDs.
+- `clean_card_data`: Cleans card-related data, including the date of payment confirmation.
+- `clean_store_data`: Cleans store-related data, including dropping unnecessary columns and updating the continent names.
+- `clean_product_data`: Cleans product-related data, including dropping rows with missing values and converting date columns.
+- `clean_orders_data`: Cleans order-related data, including dropping unnecessary columns and converting numerical columns to integers.
+- `clean_date_events_data`: Cleans date events data, including combining separate date and time columns into a single datetime column.
+
+### `data_transformations.py`
+
+This file contains the `DataTransformations` class, which is responsible for data transformations used to clean the dataframe. The methods in this class include:
+
 - `clean_dates`: Converts date columns to pandas datetime format.
 - `clean_names`: Capitalises the first letter of names in a given column.
 - `clean_phone_number`: Removes rows with phone numbers of length less than or equal to 3.
 - `clean_user_uuid`: Removes rows with user UUIDs that are not 36 characters long.
-- `clean_card_data`: Cleans card-related data, including the date of payment confirmation.
-- `clean_store_data`: Cleans store-related data, including dropping unnecessary columns and updating the continent names.
 - `convert_product_weights`: Converts product weights to a consistent format (e.g., kilograms, grams, millilitres).
-- `clean_product_data`: Cleans product-related data, including dropping rows with missing values and converting date columns.
-- `clean_orders_data`: Cleans order-related data, including dropping unnecessary columns and converting numerical columns to integers.
-- `clean_date_events_data`: Cleans date events data, including combining separate date and time columns into a single datetime column.
+- `_multiple_items_to_single_weight`: Calculate the total weight when the input is a multiple of a number and a weight unit
 
 ### `data_extracter.py`
 
@@ -71,6 +77,7 @@ This file contains the `DataExtracter` class, which handles data extraction from
 - `retrieve_pdf_data`: Retrieves data from a PDF file using the tabula library.
 - `extract_from_s3`: Extracts data from a CSV file stored in an S3 bucket using boto3.
 - `retrieve_json_data`: Retrieves data from a JSON file.
+- `retrieve_stores_data`: Retrieves data for all stores from the provided API URL.
 
 
 ### `create_the_database_schema.sql`
