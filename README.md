@@ -26,7 +26,7 @@
 A multinational company sells various goods across the globe. Currently, their sales data is spread across different data sources making it not easily accessible or analysable by current members of the team. In an effort to become more data-driven, the organisation would like to make its sales data accessible from one centralised location. 
 
 
-This project creates a system to access the current company data in a database from one centralised location and acts as a single source of truth for sales data Included also are queries for the database to get up-to-date metrics for the business. 
+This project creates a system to access the current company data in a database from one centralised location and acts as a single source of truth for sales data. Included also are queries for the database to get up-to-date metrics for the business. 
 
 
 ## Project Overview
@@ -93,7 +93,6 @@ The `create_the_database_schema.sql` contains a series of SQL queries that perfo
 - Task 6: Cast the columns in the `dim_date_times` table to the correct data types. 
 - Task 7: Cast the columns of the `dim_card_details` table to the correct data types.
 
-
 - Task 8: Create primary keys in the dimension tables (`dim_card_details`, `dim_date_times`, `dim_products`, `dim_store_details`, and `dim_users`).
 - Task 9: Finalise the star-based schema by adding foreign keys to the `orders_table` referencing the dimension tables.
 
@@ -101,10 +100,9 @@ Please ensure you run these SQL queries in the correct order and make necessary 
 
 #### Entity-Relationship Diagram (ERD) 
 
-The star-based schema is represented in the following ERD. The fact table (here the "orders_table") is at the centre, surrounded by dimension tables ("dim_card_details", "dim_date_times", "dim_products", "dim_store_details" and "dim_users"). Each dimension table is linked to the fact table through foreign keys, establishing relationships between different data elements. 
+The star-based schema is represented in the following ERD. The fact table (here the `orders_table`) is at the centre, surrounded by dimension tables (`dim_card_details`, `dim_date_times`, `dim_products`, `dim_store_details` and `dim_users`). Each dimension table is linked to the fact table through foreign keys, establishing relationships between different data elements. 
 
 ![Star-Based Schema](starbased_schema.png)
-
 
 
 ### `querying_the_data.sql`
@@ -145,7 +143,6 @@ cd multinational-retail-data-centralisation
 2. Install the required dependencies:
 
 Please ensure that you have installed the necessary libraries (e.g., pandas, sqlalchemy, tabula, boto3) before running the scripts. See the [required dependencies](#required-dependencies) section for more details.
-
 
 ```bash
 pip install -r requirements.txt
