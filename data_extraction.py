@@ -1,7 +1,7 @@
-import pandas as pd
 from sqlalchemy import text
-import tabula
+import pandas as pd
 import boto3
+import tabula
 
 class DataExtracter:
     """
