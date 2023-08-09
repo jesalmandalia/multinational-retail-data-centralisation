@@ -4,21 +4,22 @@
 - [Multinational Retail Data Centralisation](#multinational-retail-data-centralisation)
 	- [Project Background](#project-background)
 	- [Project Overview](#project-overview)
-	- [Files](#files)
+	- [Python Files](#python-files)
 		- [`database_utils.py`](#database_utilspy)
 		- [`data_cleaning.py`](#data_cleaningpy)
 		- [`data_transformations.py`](#data_transformationspy)
 		- [`data_extracter.py`](#data_extracterpy)
-		- [`create_the_database_schema.sql`](#create_the_database_schemasql)
-			- [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
-		- [`querying_the_data.sql`](#querying_the_datasql)
-	- [How To Run](#how-to-run)
 	- [Required Dependencies](#required-dependencies)
 		- [Example Usage](#example-usage)
 			- [sqlalchemy](#sqlalchemy)
 			- [tabula](#tabula)
 			- [boto3](#boto3)
 			- [requests](#requests)
+	- [How To Run](#how-to-run)
+	- [SQL Files](#sql-files)
+		- [`create_the_database_schema.sql`](#create_the_database_schemasql)
+			- [Entity-Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+		- [`querying_the_data.sql`](#querying_the_datasql)
 
 
 
@@ -31,12 +32,11 @@ This project creates a system to access the current company data in a database f
 
 ## Project Overview
 
-This project consists of three Python files that facilitate data extraction, cleaning, and database connectivity. These files are designed to be used together in a data processing pipeline to handle data from various sources, clean it, and store it in a PostgreSQL database.
+This project consists of Python files that facilitate data extraction, cleaning, and database connectivity. These files are designed to be used together in a data processing pipeline to handle data from various sources, clean it, and store it in a PostgreSQL database.
 
 There are 2 SQL files which perform various tasks, such as data manipulation, and data type casting, to maintain and analyse the star-based schema in the PostgreSQL database. The queries to retrieve up-to-date metrics have also been included.
 
-## Files
-
+## Python Files
 ### `database_utils.py`
 
 This file contains the `DatabaseConnector` class, which provides methods for reading database credentials from a YAML file, initialising a database engine for connecting to PostgreSQL, listing database tables, uploading data to the database, and obtaining the number of stores in each country from the `dim_store_details` table. The methods in this class include:
@@ -79,84 +79,6 @@ This file contains the `DataExtracter` class, which handles data extraction from
 - `extract_from_s3`: Extracts data from a CSV file stored in an S3 bucket using boto3.
 - `retrieve_json_data`: Retrieves data from a JSON file.
 - `retrieve_stores_data`: Retrieves data for all stores from the provided API URL.
-
-
-### `create_the_database_schema.sql`
-
-The `create_the_database_schema.sql` contains a series of SQL queries that perform data type casting, data manipulation, and schema modifications for the star-based schema in the PostgreSQL database.
-
-- Task 1: Cast the columns of `orders_table` to the correct data types. 
-- Task 2: Cast the columns of the `dim_users` table to the correct data types. 
-- Task 3: Update the `dim_store_details` table, handle null values, and cast columns to correct data types.
-- Task 4: Update the `dim_products` table to remove the '£' symbol from `product_price`, and add a new `weight_class` column based on the product weight range.
-- Task 5: Update the `dim_products` table. Convert `removed` to `still_available`, and cast columns to the correct data types 
-- Task 6: Cast the columns in the `dim_date_times` table to the correct data types. 
-- Task 7: Cast the columns of the `dim_card_details` table to the correct data types.
-
-- Task 8: Create primary keys in the dimension tables (`dim_card_details`, `dim_date_times`, `dim_products`, `dim_store_details`, and `dim_users`).
-- Task 9: Finalise the star-based schema by adding foreign keys to the `orders_table` referencing the dimension tables.
-
-Please ensure you run these SQL queries in the correct order and make necessary backups before applying any modifications to your database.
-
-#### Entity-Relationship Diagram (ERD) 
-
-The star-based schema is represented in the following ERD. The fact table (here the `orders_table`) is at the centre, surrounded by dimension tables (`dim_card_details`, `dim_date_times`, `dim_products`, `dim_store_details` and `dim_users`). Each dimension table is linked to the fact table through foreign keys, establishing relationships between different data elements. 
-
-![Star-Based Schema](starbased_schema.png)
-
-
-### `querying_the_data.sql`
-
-This section provides an overview of the SQL queries present in the SQL file. These queries perform various tasks to answer business-related questions.
-
-- Number of Stores per Country: This query counts the number of stores in each country from the 'dim_store_details' table and presents the results grouped by 'country_code'. 
-
-- Top Store Locations: This query determines the locations with the most stores. It counts the number of stores in each locality from the 'dim_store_details' table and presents the results grouped by 'locality'. 
-
-- Monthly Sales Analysis: This query calculates total sales for each month by multiplying 'product_quantity' and 'product_price' from the 'orders_table' and 'dim_products' tables. The results are grouped by 'month', showing which months typically produce the highest cost of sales.
-
-- Sales from Online vs. Offline: This query examines how many sales are made online (Web) and offline for each location. The 'WEB-1388012W' store is labelled as 'Web', while other stores are labelled as 'Offline'.
-
-- Store Sales Percentage: This query calculates the percentage of sales that each type of store contributes to the overall total sales. It first calculates the total sales for each store type in 'store_sales'. Then, it calculates the percentage of each store type's sales relative to the overall total.
-
-- Monthly Sales by Year: This query analyses the month in each year that produced the highest cost of sales. It sums up 'product_quantity * product_price' for each month and year and groups the results by 'month' and 'year'.
-
-- Staff Headcount per Country: This query calculates the total staff headcount for each country from the 'dim_store_details' table and groups the results by 'country_code'. 
-
-- Top-Selling German Store Types: This query identifies the German store type that is selling the most. It calculates total sales for each store type in Germany (country_code = 'DE') and presents the results grouped by 'store_type' and 'country_code'.
-
-- Time Between Sales: This query calculates how quickly the company is making sales by computing the average time difference between consecutive datetime values in the 'dim_date_times' table. The results are grouped by 'year', showing the average time taken to make a sale in each year.
-
-Please ensure you run these SQL queries in the correct order and take necessary backups before applying any modifications to your database.
-
-## How To Run
-
-To run the project, follow these steps:
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/jesalmandalia/multinational-retail-data-centralisation
-cd multinational-retail-data-centralisation
-```
-
-2. Install the required dependencies:
-
-Please ensure that you have installed the necessary libraries (e.g., pandas, sqlalchemy, tabula, boto3) before running the scripts. See the [required dependencies](#required-dependencies) section for more details.
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Update the database credentials:
-
-Ensure you have created/filled in the db_creds.yaml and my_db_creds.yaml with the credentials of the database you are accessing and want to upload to respectively.
-
-4. Run the main script:
-
-```bash
-python main.py
-```
 
 ## Required Dependencies 
 
@@ -225,3 +147,81 @@ data = response.json()
 
 ```
 
+## How To Run
+
+To run the project, follow these steps:
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/jesalmandalia/multinational-retail-data-centralisation
+cd multinational-retail-data-centralisation
+```
+
+2. Install the required dependencies:
+
+Please ensure that you have installed the necessary libraries (e.g., pandas, sqlalchemy, tabula, boto3) before running the scripts. See the [required dependencies](#required-dependencies) section for more details.
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Update the database credentials:
+
+Ensure you have created/filled in the db_creds.yaml and my_db_creds.yaml with the credentials of the database you are accessing and want to upload to respectively.
+
+4. Run the main script:
+
+```bash
+python main.py
+```
+
+
+## SQL Files
+### `create_the_database_schema.sql`
+
+The `create_the_database_schema.sql` contains a series of SQL queries that perform data type casting, data manipulation, and schema modifications for the star-based schema in the PostgreSQL database.
+
+- Task 1: Cast the columns of `orders_table` to the correct data types. 
+- Task 2: Cast the columns of the `dim_users` table to the correct data types. 
+- Task 3: Update the `dim_store_details` table, handle null values, and cast columns to correct data types.
+- Task 4: Update the `dim_products` table to remove the '£' symbol from `product_price`, and add a new `weight_class` column based on the product weight range.
+- Task 5: Update the `dim_products` table. Convert `removed` to `still_available`, and cast columns to the correct data types 
+- Task 6: Cast the columns in the `dim_date_times` table to the correct data types. 
+- Task 7: Cast the columns of the `dim_card_details` table to the correct data types.
+
+- Task 8: Create primary keys in the dimension tables (`dim_card_details`, `dim_date_times`, `dim_products`, `dim_store_details`, and `dim_users`).
+- Task 9: Finalise the star-based schema by adding foreign keys to the `orders_table` referencing the dimension tables.
+
+Please ensure you run these SQL queries in the correct order and make necessary backups before applying any modifications to your database.
+
+#### Entity-Relationship Diagram (ERD) 
+
+The star-based schema is represented in the following ERD. The fact table (here the `orders_table`) is at the centre, surrounded by dimension tables (`dim_card_details`, `dim_date_times`, `dim_products`, `dim_store_details` and `dim_users`). Each dimension table is linked to the fact table through foreign keys, establishing relationships between different data elements. 
+
+![Star-Based Schema](starbased_schema.png)
+
+
+### `querying_the_data.sql`
+
+This section provides an overview of the SQL queries present in the SQL file. These queries perform various tasks to answer business-related questions.
+
+- Number of Stores per Country: This query counts the number of stores in each country from the 'dim_store_details' table and presents the results grouped by 'country_code'. 
+
+- Top Store Locations: This query determines the locations with the most stores. It counts the number of stores in each locality from the 'dim_store_details' table and presents the results grouped by 'locality'. 
+
+- Monthly Sales Analysis: This query calculates total sales for each month by multiplying 'product_quantity' and 'product_price' from the 'orders_table' and 'dim_products' tables. The results are grouped by 'month', showing which months typically produce the highest cost of sales.
+
+- Sales from Online vs. Offline: This query examines how many sales are made online (Web) and offline for each location. The 'WEB-1388012W' store is labelled as 'Web', while other stores are labelled as 'Offline'.
+
+- Store Sales Percentage: This query calculates the percentage of sales that each type of store contributes to the overall total sales. It first calculates the total sales for each store type in 'store_sales'. Then, it calculates the percentage of each store type's sales relative to the overall total.
+
+- Monthly Sales by Year: This query analyses the month in each year that produced the highest cost of sales. It sums up 'product_quantity * product_price' for each month and year and groups the results by 'month' and 'year'.
+
+- Staff Headcount per Country: This query calculates the total staff headcount for each country from the 'dim_store_details' table and groups the results by 'country_code'. 
+
+- Top-Selling German Store Types: This query identifies the German store type that is selling the most. It calculates total sales for each store type in Germany (country_code = 'DE') and presents the results grouped by 'store_type' and 'country_code'.
+
+- Time Between Sales: This query calculates how quickly the company is making sales by computing the average time difference between consecutive datetime values in the 'dim_date_times' table. The results are grouped by 'year', showing the average time taken to make a sale in each year.
+
+Please ensure you run these SQL queries in the correct order and take necessary backups before applying any modifications to your database.
