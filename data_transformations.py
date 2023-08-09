@@ -62,7 +62,6 @@ class DataTransformations:
 
         return self.data
 
-
     def convert_product_weights(self):
         """
         Converts product weights to a consistent format (kg).
@@ -73,7 +72,7 @@ class DataTransformations:
         self.data['weight'] = self.data['weight'].str.replace(
             " .", "", regex=False)
         self.data['weight'] = self._multiple_items_to_single_weight(
-                self.data['weight'])
+            self.data['weight'])
         # Convert all weights to kg. Assume 1l = 1kg and 1oz = 28.35g
         def convert(weight):
             if weight[-2:] == "kg":
@@ -120,5 +119,5 @@ class DataTransformations:
                     total_weight = None
                 weight_column = weight_column.replace(
                     weight, total_weight)
-        
+
         return weight_column

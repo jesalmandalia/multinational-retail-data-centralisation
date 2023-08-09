@@ -67,7 +67,6 @@ class DataCleaning:
         """
 
         print("Cleaning store data")
-
         self.data = self.data.drop(columns=['lat'])
         data_transformations = DataTransformations(self.data)        
         self.data = data_transformations.clean_dates('opening_date')
@@ -103,7 +102,6 @@ class DataCleaning:
         """
 
         print("Cleaning orders data")
-
         self.data = self.data.drop(
             columns=['first_name', 'last_name', '1', 'level_0'])
         self.data = self.data.dropna()
